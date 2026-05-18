@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Matrícula - Protótipo Interativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="prototype-styles.css">
+</head>
+<body>
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Modal Boleto -->
+    <div id="modal-boleto" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Boleto Bancário</h3>
+                <button class="modal-close" onclick="closeModal('modal-boleto')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="boleto-doc">
+                    <div class="boleto-header">
+                        <div class="boleto-bank">
+                            <div class="bank-logo">ABC</div>
+                            <div class="bank-name">Banco ABC | 001-9</div>
+                        </div>
+                        <div class="boleto-barcode-num">00190.00009 02468.000007 92316.150009 1 95720000420000</div>
+                    </div>
+                    <div class="boleto-grid">
+                        <div class="boleto-cell">
+                            <span class="cell-label">Beneficiário</span>
+                            <span class="cell-value">ABC Universidade</span>
+                        </div>
+                        <div class="boleto-cell">
+                            <span class="cell-label">CNPJ</span>
+                            <span class="cell-value">00.000.000/0001-00</span>
+                        </div>
+                        <div class="boleto-cell">
+                            <span class="cell-label">Vencimento</span>
+                            <span class="cell-value" id="boleto-due">25/05/2026</span>
+                        </div>
+                        <div class="boleto-cell">
+                            <span class="cell-label">Valor</span>
+                            <span class="cell-value boleto-value" id="boleto-value">R$ 4.200,00</span>
+                        </div>
+                    </div>
+                    <div class="barcode"></div>
+                </div>
+                <button class="btn-primary" onclick="downloadBoleto()" style="margin-top: 24px; width: 100%;">
+                    <span>📥</span> Baixar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Toggle -->
+    <div class="view-toggle-container">
+        <div class="view-toggle">
+            <button class="toggle-btn active" data-view="desktop" onclick="switchView('desktop')">
+                <span>🖥️</span> Desktop
+            </button>
+            <button class="toggle-btn" data-view="mobile" onclick="switchView('mobile')">
+                <span>📱</span> Mobile
+            </button>
+        </div>
+        <button class="reset-btn" onclick="resetPrototype()" title="Reiniciar protótipo">↻ Reiniciar</button>
+    </div>
+
+    <!-- Container will hold the active prototype -->
+    <div id="prototype-container"></div>
+
+    <script src="prototype-app.js"></script>
+</body>
+</html>
