@@ -35,6 +35,86 @@
     box-sizing: border-box;
 }
 
+/* ==================== WCAG 2.2 ACCESSIBILITY ==================== */
+/* Skip link - WCAG 2.4.1 Bypass Blocks */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 8px;
+    background: var(--primary);
+    color: white;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    z-index: 10000;
+    transition: top 0.2s;
+}
+
+.skip-link:focus {
+    top: 8px;
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Screen-reader only - conteúdo invisível visualmente, mas anunciado por leitores de tela */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* WCAG 2.4.7 Focus Visible - indicador de foco claro e consistente */
+*:focus {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 3px solid var(--accent-dark);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+button:focus-visible,
+.toggle-btn:focus-visible,
+.reset-btn:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.btn-outline:focus-visible {
+    outline: 3px solid var(--accent-dark);
+    outline-offset: 3px;
+}
+
+.form-input:focus-visible,
+.form-select:focus-visible,
+.search-input:focus-visible {
+    outline: 3px solid var(--accent-dark);
+    outline-offset: 1px;
+}
+
+#main-content:focus {
+    outline: none;
+}
+
+/* WCAG 2.3.3 Animation from Interactions - reduzir movimento quando solicitado */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
 html, body {
     height: 100%;
 }
@@ -830,13 +910,15 @@ input, select {
 }
 
 /* ==================== MOBILE CARDS ==================== */
-.discipline-cards { display: none; }
+.discipline-cards { display: none; list-style: none; padding: 0; margin: 0; }
 .device-frame.mobile .discipline-table { display: none; }
 .device-frame.mobile .discipline-cards {
     display: flex;
     flex-direction: column;
     gap: 12px;
     margin: 16px 0;
+    list-style: none;
+    padding: 0;
 }
 
 .discipline-card {
@@ -925,7 +1007,8 @@ input, select {
     margin: 16px 0;
 }
 
-.pagination span {
+.pagination span,
+.pagination button {
     width: 36px;
     height: 36px;
     display: flex;
@@ -937,19 +1020,28 @@ input, select {
     color: var(--text-secondary);
     cursor: pointer;
     transition: var(--transition);
+    background: white;
+    border: 1px solid var(--border);
 }
 
-.pagination span:hover {
+.pagination span:hover,
+.pagination button:hover:not(:disabled) {
     background: var(--bg);
     color: var(--primary);
+    border-color: var(--primary);
 }
 
-.pagination span.active {
+.pagination span.active,
+.pagination button.active,
+.pagination button[aria-current="page"] {
     background: var(--primary);
     color: white;
+    border-color: var(--primary);
 }
 
-.pagination span.disabled {
+.pagination span.disabled,
+.pagination button.disabled,
+.pagination button:disabled {
     opacity: 0.3;
     cursor: not-allowed;
     pointer-events: none;
@@ -983,6 +1075,9 @@ input, select {
 
 .payment-row .label { color: var(--text-secondary); }
 
+.payment-summary dt, .payment-summary dd { margin: 0; }
+.payment-summary dd { text-align: right; }
+
 .payment-methods {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1004,6 +1099,10 @@ input, select {
     transition: var(--transition);
     background: white;
     position: relative;
+    color: inherit;
+    font: inherit;
+    width: 100%;
+    display: block;
 }
 
 .device-frame.mobile .payment-method {
@@ -1226,8 +1325,11 @@ input, select {
 
 .success-detail-row:last-child { border-bottom: none; }
 
-.success-detail-row .label { color: var(--text-secondary); }
-.success-detail-row .value { font-weight: 600; color: var(--text); }
+.success-detail-row .label,
+.success-detail-row dt { color: var(--text-secondary); }
+.success-detail-row .value,
+.success-detail-row dd { font-weight: 600; color: var(--text); margin: 0; text-align: right; }
+.success-details dt { font-weight: normal; }
 
 .success-actions {
     display: flex;
