@@ -4,28 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABC Matrícula - Protótipo Interativo</title>
+    <meta name="description" content="Sistema de matrícula online da Universidade ABC. Selecione curso, modalidade, disciplinas e finalize o pagamento.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="prototype-styles.css">
 </head>
 <body>
-    <!-- Toast notification -->
-    <div id="toast" class="toast"></div>
+    <!-- Skip link para usuários de teclado e leitores de tela -->
+    <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+    <!-- Live region para notificações de toast (anunciada por leitores de tela) -->
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Live region para mensagens de status (mudanças de tela, loading, sucesso) -->
+    <div id="sr-announcer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
 
     <!-- Modal Boleto -->
-    <div id="modal-boleto" class="modal-overlay">
+    <div id="modal-boleto" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-boleto-title" aria-hidden="true">
         <div class="modal">
             <div class="modal-header">
-                <h3>Boleto Bancário</h3>
-                <button class="modal-close" onclick="closeModal('modal-boleto')">&times;</button>
+                <h3 id="modal-boleto-title">Boleto Bancário</h3>
+                <button class="modal-close" onclick="closeModal('modal-boleto')" aria-label="Fechar modal de boleto">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="boleto-doc">
+                <div class="boleto-doc" role="region" aria-label="Detalhes do boleto bancário">
                     <div class="boleto-header">
                         <div class="boleto-bank">
-                            <div class="bank-logo">ABC</div>
+                            <div class="bank-logo" aria-hidden="true">ABC</div>
                             <div class="bank-name">Banco ABC | 001-9</div>
                         </div>
-                        <div class="boleto-barcode-num">00190.00009 02468.000007 92316.150009 1 95720000420000</div>
+                        <div class="boleto-barcode-num" aria-label="Linha digitável do boleto">00190.00009 02468.000007 92316.150009 1 95720000420000</div>
                     </div>
                     <div class="boleto-grid">
                         <div class="boleto-cell">
@@ -45,30 +52,34 @@
                             <span class="cell-value boleto-value" id="boleto-value">R$ 4.200,00</span>
                         </div>
                     </div>
-                    <div class="barcode"></div>
+                    <div class="barcode" role="img" aria-label="Código de barras do boleto"></div>
                 </div>
                 <button class="btn-primary" onclick="downloadBoleto()" style="margin-top: 24px; width: 100%;">
-                    <span>📥</span> Baixar PDF
+                    <span aria-hidden="true">📥</span> Baixar PDF
                 </button>
             </div>
         </div>
     </div>
 
     <!-- View Toggle -->
-    <div class="view-toggle-container">
-        <div class="view-toggle">
-            <button class="toggle-btn active" data-view="desktop" onclick="switchView('desktop')">
-                <span>🖥️</span> Desktop
+    <header class="view-toggle-container" role="banner">
+        <div class="view-toggle" role="tablist" aria-label="Selecionar visualização">
+            <button class="toggle-btn active" data-view="desktop" onclick="switchView('desktop')" role="tab" aria-selected="true" aria-controls="prototype-container">
+                <span aria-hidden="true">🖥️</span> Desktop
             </button>
-            <button class="toggle-btn" data-view="mobile" onclick="switchView('mobile')">
-                <span>📱</span> Mobile
+            <button class="toggle-btn" data-view="mobile" onclick="switchView('mobile')" role="tab" aria-selected="false" aria-controls="prototype-container">
+                <span aria-hidden="true">📱</span> Mobile
             </button>
         </div>
-        <button class="reset-btn" onclick="resetPrototype()" title="Reiniciar protótipo">↻ Reiniciar</button>
-    </div>
+        <button class="reset-btn" onclick="resetPrototype()" aria-label="Reiniciar protótipo do início">
+            <span aria-hidden="true">↻</span> Reiniciar
+        </button>
+    </header>
 
     <!-- Container will hold the active prototype -->
-    <div id="prototype-container"></div>
+    <main id="main-content" tabindex="-1">
+        <div id="prototype-container" aria-live="polite"></div>
+    </main>
 
     <script src="prototype-app.js"></script>
 </body>
