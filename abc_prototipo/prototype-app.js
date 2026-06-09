@@ -15,7 +15,8 @@ const state = {
     installments: 1,
     protocol: '',
     currentPage: 1,
-    disciplineFilter: ''
+    disciplineFilter: '',
+    limitWarning: false
 };
 
 const DISCIPLINES_PER_PAGE = 5;
@@ -316,9 +317,11 @@ function handleDateInput(e) {
 function toggleDiscipline(id) {
     if (state.selectedDisciplines.has(id)) {
         state.selectedDisciplines.delete(id);
+        if (state.selectedDisciplines.size < 4) state.limitWarning = false;
     } else {
         if (state.selectedDisciplines.size >= 4) {
-            showToast('Máximo de 4 disciplinas por semestre', 'error');
+            state.limitWarning = true;
+            render();
             return;
         }
         state.selectedDisciplines.add(id);
@@ -329,6 +332,11 @@ function toggleDiscipline(id) {
 function selectPaymentMethod(method) {
     state.paymentMethod = method;
     if (method !== 'cartao') state.installments = 1;
+    render();
+}
+
+function dismissLimitWarning() {
+    state.limitWarning = false;
     render();
 }
 
@@ -464,6 +472,25 @@ function renderScreen2() {
 
         <h2 class="section-divider">Disciplinas Disponíveis</h2>
         <p class="sr-only" id="disc-instructions">Selecione até 4 disciplinas. Use Tab para navegar e Espaço ou Enter para marcar/desmarcar.</p>
+
+        <div class="discipline-limit-bar" role="status" aria-live="polite">
+            <span class="limit-counter ${state.selectedDisciplines.size === 4 ? 'full' : ''}">
+                <strong>${state.selectedDisciplines.size}</strong> / 4 disciplinas selecionadas
+            </span>
+            <span class="limit-hint">Limite de 4 por semestre</span>
+        </div>
+
+        ${state.limitWarning ? `
+            <div class="limit-warning" role="alert">
+                <span aria-hidden="true">⚠️</span>
+                <div>
+                    <strong>Limite atingido:</strong> você já selecionou 4 disciplinas, o máximo permitido por semestre.
+                    Para escolher outra, desmarque uma das atuais.
+                </div>
+                <button type="button" class="limit-warning-close" onclick="dismissLimitWarning()" aria-label="Fechar aviso">&times;</button>
+            </div>
+        ` : ''}
+
         <div class="search-bar" role="search">
             <label for="field-search" class="sr-only">Buscar disciplina por nome</label>
             <input id="field-search" class="search-input" placeholder="Buscar disciplina..." value="${state.disciplineFilter}" oninput="filterDisciplines(this.value)" aria-controls="disciplines-tbody" type="search">
