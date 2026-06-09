@@ -58,7 +58,7 @@
     outline-offset: 2px;
 }
 
-/* Screen-reader only - conteúdo invisível visualmente, mas anunciado por leitores de tela */
+/* Screen-reader only - conteÃºdo invisÃ­vel visualmente, mas anunciado por leitores de tela */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -299,7 +299,7 @@ input, select {
 }
 
 .browser-url::before {
-    content: '🔒';
+    content: 'ðŸ”’';
     font-size: 0.7rem;
 }
 
@@ -789,6 +789,82 @@ input, select {
 }
 
 /* ==================== TABLE / DISCIPLINES ==================== */
+.discipline-limit-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.limit-counter {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.limit-counter strong {
+    font-size: 1.1rem;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.limit-counter.full strong {
+    color: var(--success, #16a34a);
+}
+
+.limit-counter.full::after {
+    content: ' âœ“';
+    color: var(--success, #16a34a);
+    font-weight: 700;
+}
+
+.limit-hint {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    opacity: 0.75;
+}
+
+.limit-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-left: 4px solid #f59e0b;
+    border-radius: var(--radius-sm);
+    color: #78350f;
+    margin-bottom: 16px;
+    font-size: 0.92rem;
+    line-height: 1.45;
+}
+
+.limit-warning strong {
+    color: #78350f;
+}
+
+.limit-warning-close {
+    background: none;
+    border: none;
+    color: #78350f;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+    margin-left: auto;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+}
+
+.limit-warning-close:hover {
+    opacity: 1;
+}
+
 .search-bar {
     display: flex;
     gap: 12px;
@@ -904,7 +980,7 @@ input, select {
 }
 
 .checkbox-custom.checked::after {
-    content: '✓';
+    content: 'âœ“';
     font-size: 0.85rem;
     font-weight: bold;
 }
@@ -1126,7 +1202,7 @@ input, select {
 }
 
 .payment-method.selected::after {
-    content: '✓';
+    content: 'âœ“';
     position: absolute;
     top: 8px;
     right: 8px;
